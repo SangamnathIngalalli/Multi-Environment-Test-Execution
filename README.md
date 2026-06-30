@@ -327,3 +327,73 @@ In a real-world production environment:
 * **CronJob** → Scheduled Smoke or Regression Tests
 
 This approach keeps the project aligned with Kubernetes best practices while preparing the environments that Playwright can target in future projects.
+
+---
+
+# 📖 Key Learning Outcomes
+
+Through this project I learned how to:
+
+* Design isolated Kubernetes environments
+* Deploy the same application across multiple environments
+* Separate configuration from application code
+* Manage sensitive information securely
+* Organize Kubernetes resources using labels
+* Control namespace resource consumption
+* Build reusable deployment scripts
+* Follow production-style environment management practices
+
+---
+
+# 💡 Real-World Insight
+
+One of the most valuable lessons from this project was understanding the difference between **long-running services** and **batch workloads** in Kubernetes.
+
+Initially, I considered deploying Playwright tests using a Kubernetes Deployment. However, Playwright completes its execution and exits successfully. Since a Deployment continuously ensures that pods remain running, Kubernetes restarts the completed container, eventually resulting in a **CrashLoopBackOff**.
+
+To keep the focus on multi-environment management, I deployed **Nginx** as the application while preparing the infrastructure that Playwright can target.
+
+In production environments:
+
+* **Deployment** → Long-running applications (Nginx, APIs, Web Applications)
+* **Job** → One-time Playwright execution
+* **CronJob** → Scheduled regression or smoke test execution
+
+This distinction helped me better understand how Kubernetes workloads should be selected based on application behavior rather than using a single resource type for every use case.
+
+---
+
+# 🔮 Future Improvements
+
+* Replace Nginx with a sample web application
+* Execute Playwright tests using Kubernetes Jobs
+* Schedule nightly regression suites using CronJobs
+* Deploy with Helm charts
+* Manage environments using Kustomize
+* Integrate with GitHub Actions CI/CD
+* Store secrets using HashiCorp Vault or External Secrets Operator
+* Add Horizontal Pod Autoscaling (HPA)
+* Add Ingress for external access
+* Implement monitoring using Prometheus and Grafana
+
+---
+
+# 🛠️ Tech Stack
+
+* Kubernetes
+* Docker
+* Nginx
+* kubectl
+* YAML
+* Bash
+* ConfigMaps
+* Secrets
+* Labels & Selectors
+* Resource Quotas
+
+---
+
+# 👨‍💻 Author
+
+Developed as part of my Kubernetes learning journey to gain hands-on experience with multi-environment deployments and production-ready Kubernetes resource management.
+
