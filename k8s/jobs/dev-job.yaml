@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: playwright-job
+  namespace: dev
+
+spec:
+  backoffLimit: 2
+
+  template:
+    metadata:
+      labels:
+        app: playwright-demo
+        env: dev
+
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: playwright
+
+          # Replace with your own Playwright image
+          image: mcr.microsoft.com/playwright:v1.55.0-jammy
+          imagePullPolicy: Always
+
+          envFrom:
+            - configMapRef:
+                name: nginx-config
+
+            - secretRef:
+                name: nginx-secret
+
+          workingDir: /app
+
+          command:
+            - sh
+            - -c
+
+          args:
+            - |
+              echo "Starting Playwright Tests..."
+
+              npm ci
+
+              npx playwright test
+
+              echo "Playwright Tests Completed."
